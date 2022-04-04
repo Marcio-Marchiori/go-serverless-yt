@@ -9,7 +9,7 @@ import (
 )
 
 var(
-	
+	ErrorFailedToFetchRecord = "failed to fetch record"
 )
 
 type User struct{
@@ -25,6 +25,12 @@ func FetchUser(email, tableName string, dynaClient dynamodbiface.DynamoDBAPI)(*U
 				S: aws.String(email)
 			}
 		},
+		TableName: aws.String(tableName)
+	}
+
+	result, err := dynaClient.GetItem(input)
+	if err!=nil{
+		return nil, errors.New(ErrorFailedToFetchRecord)
 	}
 }
 
